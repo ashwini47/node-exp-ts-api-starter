@@ -16,3 +16,9 @@ npm run build start normal build
 
 **RUN Project**
 npm run start:dev  - start in auto rebuild mode 
+
+//https://thecodebarbarian.com/working-with-mongoose-in-typescript.html
+
+
+ISSUE 
+https://github.com/Automattic/mongoose/issues/9606#issuecomment-736308693
