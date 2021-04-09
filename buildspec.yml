@@ -1,0 +1,23 @@
+--- 
+phases: 
+  build: 
+    commands: 
+      - "echo Build started on `date`"
+      - "echo Building the Docker image..."
+      - "docker build -t ashwini47lab/sad-backend ."
+      - "docker tag ashwini47lab/sad-backend ashwini47lab/sad-backend:latest"
+  post_build: 
+    commands: 
+      - "echo Build completed on `date`"
+      - "echo Pushing the Docker image..."
+      - "docker push ashwini47lab/sad-backend:latest"
+      
+  pre_build: 
+    commands: 
+      - "echo Logging in to Docker Hub..."
+      - "docker login --username=\"ashwini47lab\" --password=$DOCKER_PW"
+artifacts:
+  files:
+    - '**/*'
+version: 0.1
+
