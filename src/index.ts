@@ -5,10 +5,12 @@ import { mongo } from "./DB/mongo-connect";
 //import { User, IUser } from "./server/model/user";
 //import { Task, ITask } from "./server/model/task";
 //import { model, Schema, Model, Document } from "mongoose";
-import router from "./server/routes/healthcheck";
+import healtcheckrouter from "./server/routes/healtcheck";
 import consoleLogger from "./server/logger/console-logger";
 import userRouter from "./server/routes/user-routers"
 import taskRoutes from './server/routes/task-routes';
+import authRoutes from './server/routes/auth-routes';
+import apiHomeRoutes from './server/routes/api-home-router';
 const app = express();
 
 mongo.mongooseConnect(config.MONGO_DB_CONN_STR);
@@ -23,24 +25,35 @@ if (config.NODE_ENV === "DEV") {
 app.use(express.json()); //Used to parse JSON bodies
 app.use(express.urlencoded()); //Parse URL-encoded bodies
 
-
+/*
 app.get("/", (req, res) => {
   res.redirect(301, "/api");
 });
+
 
 app.get("/api", (req, res) => {
   res.setHeader("Content-Type", "application/json");
   res.send({ message: "Welcome to API Home", "health-check": "/api/status" });
 });
-
-app.use("/api", router);
-
-
-
-app.use("/api/users", userRouter);
+*/
+app.use("/", apiHomeRoutes);
+apiHomeRoutes.use("/api", healtcheckrouter);
 
 
-router.use('/tasks', taskRoutes);
+
+apiHomeRoutes.use("/api/users", userRouter);
+apiHomeRoutes.use("/auth/token", authRoutes);
+
+apiHomeRoutes.use("/api/tasks", taskRoutes);
+
+//GLobal error handlers 
+app.use((err, req, res, next) => {
+  res.status(err.status)
+    .json({
+      status: err.status,
+      message: err.message
+    });
+});
 // start the Express server
 app.listen(config.API_PORT, () => {
   console.log(`server started at http://localhost:${config.API_PORT}`);

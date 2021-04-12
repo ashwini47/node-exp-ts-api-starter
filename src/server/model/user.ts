@@ -4,12 +4,22 @@ import { model, Schema, Model, Document } from "mongoose";
 export interface IUser extends Document {
   username: string;
   password: string;
+  comparePassword(toCompare, done):boolean
+
 }
 
 const UserSchema: Schema = new Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
 });
+
+//https://medium.com/@agentwhs/complete-guide-for-typescript-for-mongoose-for-node-js-8cc0a7e470c1
+UserSchema.methods.comparePassword =function (this:IUser, toCompare, done) {
+  bcrypt.compare(toCompare, this.password, (err, isMatch) => {
+    if (err) done(err);
+    else done(err, isMatch);
+  });
+};
 //Middleware with typescript
 //https://thecodebarbarian.com/working-with-mongoose-in-typescript.html
 UserSchema.pre<IUser>('save', function (next) {
@@ -27,6 +37,7 @@ UserSchema.pre<IUser>('save', function (next) {
     });
   });
 });
+
 
 export const User: Model<IUser> = model("User", UserSchema);
 
