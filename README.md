@@ -25,3 +25,5 @@ ISSUE
 https://github.com/Automattic/mongoose/issues/9606#issuecomment-736308693
 
 https://codesource.io/creating-a-logging-middleware-in-expressjs/ 
+
+https://medium.com/@agentwhs/complete-guide-for-typescript-for-mongoose-for-node-js-8cc0a7e470c1 

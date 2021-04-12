@@ -2,10 +2,11 @@ import { config } from "./env/dev.env";
 import express from "express";
 import path from "path";
 import { mongo } from "./DB/mongo-connect";
+import expressValidation from 'express-validation';
 //import { User, IUser } from "./server/model/user";
 //import { Task, ITask } from "./server/model/task";
 //import { model, Schema, Model, Document } from "mongoose";
-import healtcheckrouter from "./server/routes/healtcheck";
+import healtcheckrouter from "./server/routes/healthcheck-router";
 import consoleLogger from "./server/logger/console-logger";
 import userRouter from "./server/routes/user-routers"
 import taskRoutes from './server/routes/task-routes';
@@ -46,7 +47,20 @@ apiHomeRoutes.use("/auth/token", authRoutes);
 
 apiHomeRoutes.use("/api/tasks", taskRoutes);
 
-//GLobal error handlers 
+///
+app.use((err, req, res, next) => {
+  if (err instanceof expressValidation.ValidationError) {
+    res.status(err.statusCode).json(err);
+  } else {
+    res.status(500)
+      .json({
+        status: err.status,
+        message: err.message,
+        details: err.stack
+      });
+  }
+});
+//GLobal error
 app.use((err, req, res, next) => {
   res.status(err.status)
     .json({

@@ -1,6 +1,8 @@
 import express from 'express';
+import {validate} from 'express-validation';
 import taskCtrl from '../controllers/task-controllers';
-
+import {payloadValidator} from '../request-validators/payload-validator';
+import {payloadSchemas} from '../request-validators/payload-schemas';
 const router = express.Router();
 
 router.route('/')
@@ -8,7 +10,8 @@ router.route('/')
   .get(taskCtrl.list)
 
   /** POST /api/tasks - Create new task */
-  .post(taskCtrl.create);
+  .post(payloadValidator(payloadSchemas.TaskSchema),taskCtrl.create);
+  //.post(taskCtrl.create);
 
 router.route('/:taskId')
   /** GET /api/tasks/:taskId - Get task */
@@ -21,6 +24,7 @@ router.route('/:taskId')
   .delete(taskCtrl.remove);
 
 /** Load task when API with taskId route parameter is hit */
+//router.param('taskId', validate(validations.getTask));
 router.param('taskId', taskCtrl.load);
 
 export default router;
