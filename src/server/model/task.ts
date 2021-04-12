@@ -8,7 +8,7 @@ export interface ITask extends Document {
 }
 
 const TaskSchema: Schema = new Schema({
-  name: { type: mongoose.Schema.Types.ObjectId, required: true },
+  user: { type: mongoose.Schema.Types.ObjectId, required: true },
   description: { type: String, required: true },
   done: { type: String, required: true },
 });

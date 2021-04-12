@@ -1,4 +1,5 @@
 # Starter project do demonstrate Node- Typescript configuration with express  
+https://medium.com/@xoor/building-a-node-js-rest-api-5-defining-the-routes-9eab8031b087 
 
 Purpose of this project is to provide boilerplate nodejs API project with basic build & run setup 
 Express related structure is not configured 
@@ -22,3 +23,5 @@ npm run start:dev  - start in auto rebuild mode
 
 ISSUE 
 https://github.com/Automattic/mongoose/issues/9606#issuecomment-736308693
+
+https://codesource.io/creating-a-logging-middleware-in-expressjs/ 
